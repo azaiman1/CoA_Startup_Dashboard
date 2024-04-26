@@ -13,7 +13,7 @@ const path = require('path');
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 
 
@@ -27,9 +27,9 @@ const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
   port: 5439,
 });
 
-app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-});
+// app.get('/', function (req, res) {
+// 	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+// });
 
 
 app.get('/api/company_page', async (req, res) => {
