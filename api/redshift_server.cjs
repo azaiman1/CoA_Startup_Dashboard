@@ -16,9 +16,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 
-app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
+
 
 
 const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
@@ -27,6 +25,10 @@ const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
   database: 'dev',
   password: 'CoADashboard#!ATL1',
   port: 5439,
+});
+
+app.get('/', function (req, res) {
+	res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 
