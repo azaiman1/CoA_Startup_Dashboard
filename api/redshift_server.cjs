@@ -28,7 +28,7 @@ const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
 });
 
 app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, '..', 'index.html'));
+	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 
