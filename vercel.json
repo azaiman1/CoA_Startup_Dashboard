@@ -7,7 +7,7 @@
     },
     {
         "src": "index.html",
-        "use": "tsc && vite build"
+        "use": "vite build"
       }
 
     
