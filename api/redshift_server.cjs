@@ -29,8 +29,7 @@ const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
   port: 5439,
 });
 
-
-app.get('/api/company_page', async (req, res) => {
+module.exports = async (req, res) => {
     try {
       const queryResult = await pool.query(`SELECT name, industries, round, amount, round_valuation_usd, growth_stage, launch_year FROM coadata.master_table_stg`);
       res.json(queryResult.rows); 
@@ -38,7 +37,7 @@ app.get('/api/company_page', async (req, res) => {
       console.error('Error executing query:', err.stack);
       res.status(500).send('Error fetching data'); 
     }
-  });
+  };
   
 
 async function fetchMetricData(columnName) {
