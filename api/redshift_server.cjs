@@ -1,11 +1,25 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
+
+// const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+app.use(express.static('public'));
+
+
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+
+app.get('/', function (req, res) {
+	res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
 
 const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
   user: 'coa_datalabs',
