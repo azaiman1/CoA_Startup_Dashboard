@@ -1,5 +1,19 @@
 {
-	"version": 2,
-  
-	"rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/redshift_server.cjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/redshift_server.cjs"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ]
 }
