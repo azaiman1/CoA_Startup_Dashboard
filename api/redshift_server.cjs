@@ -6,7 +6,7 @@ const path = require('path');
 
 // const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 
 
