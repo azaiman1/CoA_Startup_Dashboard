@@ -34,7 +34,7 @@ const pool = new Pool({ //NEED TO SWITCH TO ENVIRONMENTAL VARIABLES
 
 app.get('/api/company_page', async (req, res) => {
     try {
-      const queryResult = await pool.query(`SELECT name, industries, round, amount, round_valuation_usd, growth_stage, launch_year FROM coadata.master_table_stg`);
+      const queryResult = await pool.query(`SELECT name, industries, round, amount, round_valuation_usd, growth_stage, launch_year, total_rounds_number, current_company_valuation FROM coadata.master_table_stg`);
       res.json(queryResult.rows); 
     } catch (err) {
       console.error('Error executing query:', err.stack);
