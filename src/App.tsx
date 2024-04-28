@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import {
@@ -152,7 +152,52 @@ function classNames(...classes: string[]) {
 //     Population: 15777451,
 //   },
 // ];
-
+const GoogleMap = () => {
+    const googleMapRef = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+      const initMap = () => {
+      
+        fetch('locations.json')
+          .then(response => response.json())
+          .then(jsonData => {
+            const map = new google.maps.Map(googleMapRef.current!, {
+              center: { lat: 33.7490, lng: -84.3880 },
+              zoom: 11
+            });
+            const heatmapData = jsonData.locations.map((item: any) => new google.maps.LatLng(parseFloat(item.latitude), parseFloat(item.longitude)));
+            console.log("Number of data points in heatmap:", heatmapData.length);
+            const heatmap = new google.maps.visualization.HeatmapLayer({
+              data: heatmapData,
+              map: map,
+              radius: 30
+            });
+            console.log(heatmap)
+          });
+      };
+      const scriptId = 'google-maps-script';
+      const existingScript = document.getElementById(scriptId) as HTMLScriptElement;
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD-cQkVQiCzurIlUsXMx8ewsTmlPqwcmqQ&callback=initMap&libraries=visualization';
+        script.id = scriptId;
+        script.defer = true;
+        script.async = true;
+        document.body.appendChild(script);
+        script.onload = () => {
+          initMap();
+        };
+      } else if (existingScript && !window.google) {
+        existingScript.onload = () => initMap();
+      } else {
+        initMap();
+      }
+      return () => {
+        existingScript?.remove();
+      };
+    }, []);
+    return <div id="google-map" ref={googleMapRef} style={{ height: '500px', width: '100%' }} />;
+   };
 
 // some bs data i made up
 const startupsByYear = [
@@ -487,6 +532,9 @@ const App: React.FC = () => {
                   </div>
                   <div className="scatter-chart-container">
                     <ScatterChartUsageExampleWithClickEvent />
+                  </div>
+                  <div className="map-container" style={{ marginTop: '20px'}}>
+                 <GoogleMap />
                   </div>
                 </>
               }
