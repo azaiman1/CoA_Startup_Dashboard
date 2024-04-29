@@ -327,7 +327,7 @@ const ScatterChartUsageExampleWithClickEvent = () => {
       };
     });
   };
-
+  console.log("pre chart data:", data);
   const chartData = useMemo(() => data ? updateChartData(data) : [], [data, xAxis, yAxis, size]);
   console.log("Final chart data:", chartData);
 
@@ -379,6 +379,8 @@ const ScatterChartUsageExampleWithClickEvent = () => {
       <ScatterChart
         className="-ml-2 mt-6 h-80"
         yAxisWidth={50}
+        // minXValue={0}
+        // maxXValue={100000000}
         data={chartData}
         category="name"
         x={xAxis}
