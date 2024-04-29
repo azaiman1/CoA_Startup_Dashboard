@@ -390,7 +390,7 @@ const ScatterChartUsageExampleWithClickEvent = () => {
         showLegend={false}
         valueFormatter={{
         //   x: (amount) => `$${(amount / 1000).toFixed(1)}K`,
-        y: (amount) => `${amount/100000} $`,
+        // y: (amount) => `${amount/100000} $`,
         //   size: (amount) => `${(amount / 1000000).toFixed(1)}M people`,
         }}
       />
