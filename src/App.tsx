@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef, useMemo } from "react";
 
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import {
@@ -292,6 +292,19 @@ const cardData = [
   },
 ];
 
+
+function getMedianValue(value) {
+  if (value && value.includes("-")) {
+    const parts = value.split("-").map(part => parseFloat(part.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      return (parts[0] + parts[1]) / 2;
+    }
+  }
+  return parseFloat(value);
+}
+
+
+
 const ScatterChartUsageExampleWithClickEvent = () => {
   const data = useContext(DataContext);
   const [xAxis, setXAxis] = useState('totalFunding');
@@ -301,16 +314,21 @@ const ScatterChartUsageExampleWithClickEvent = () => {
   const updateChartData = (jsonData) => {
     return jsonData.filter(item => 
       item[xAxis] != null && item[yAxis] != null && item[size] != null
-    ).map((item, index) => ({
-      ...item,
-      x: item[xAxis],
-      y: item[yAxis],
-      size: item[size] || 1,
-      uniqueKey: `point-${index}`
-    }));
+    ).map((item, index) => {
+      const xValue = ['current_company_valuation', 'round_valuation_usd'].includes(xAxis) ? getMedianValue(item[xAxis].toString()) : item[xAxis];
+      const yValue = ['current_company_valuation', 'round_valuation_usd'].includes(yAxis) ? getMedianValue(item[yAxis].toString()) : item[yAxis];
+
+      return {
+        ...item,
+        x: xValue,
+        y: yValue,
+        size: item[size] || 1,
+        uniqueKey: `point-${index}`
+      };
+    });
   };
 
-  const chartData = data ? updateChartData(data) : [];
+  const chartData = useMemo(() => data ? updateChartData(data) : [], [data, xAxis, yAxis, size]);
 
   
   const axisOptions = {
