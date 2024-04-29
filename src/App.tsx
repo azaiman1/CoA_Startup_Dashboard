@@ -294,7 +294,6 @@ const cardData = [
 
 
 function getMedianValue(value) {
-  console.log("Calculating median for:", value);
   if (value && value.includes("-")) {
     const parts = value.split("-").map(part => parseFloat(part.trim()));
     if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
@@ -318,7 +317,6 @@ const ScatterChartUsageExampleWithClickEvent = () => {
     ).map((item, index) => {
       const xValue = ['current_company_valuation', 'round_valuation_usd'].includes(xAxis) ? getMedianValue(item[xAxis].toString()) : item[xAxis];
       const yValue = ['current_company_valuation', 'round_valuation_usd'].includes(yAxis) ? getMedianValue(item[yAxis].toString()) : item[yAxis];
-      console.log(`Processed point ${index}: x=${xValue}, y=${yValue}, size=${item[size]}`); // Debug: processed data points
 
       return {
         ...item,
@@ -331,6 +329,7 @@ const ScatterChartUsageExampleWithClickEvent = () => {
   };
 
   const chartData = useMemo(() => data ? updateChartData(data) : [], [data, xAxis, yAxis, size]);
+  console.log("Final chart data:", chartData);
 
   
   const axisOptions = {
